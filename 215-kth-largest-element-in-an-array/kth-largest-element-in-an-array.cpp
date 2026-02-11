@@ -1,9 +1,24 @@
 class Solution {
 public:
-    int findKthLargest(vector<int>& nums, int k) {
-        int n=nums.size();
-        sort(nums.begin(),nums.end());
-        int s=n-k;
-        return nums[s];
+int partition(vector<int>&nums,int low,int high){
+    int pivot=nums[high];
+    int i=low;
+    for(int j=low;j<high;j++){
+        if(nums[j]>pivot){
+        swap(nums[i],nums[j]);
+        i++;
+        }
     }
+    swap(nums[i],nums[high]);
+    return i;
+    }
+    int quickSelect(vector<int>&nums,int low,int high,int k){
+        int p=partition(nums,low,high);
+        if(p==k)return nums[p];
+        else if(p>k)return quickSelect(nums,low,p-1,k);
+        else return quickSelect(nums,p+1,high,k);
+}
+int findKthLargest(vector<int>& nums, int k) {
+    return quickSelect(nums,0,nums.size()-1,k-1);
+}
 };
