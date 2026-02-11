@@ -13,10 +13,13 @@ int partition(vector<int>&nums,int low,int high){
     return i;
     }
     int quickSelect(vector<int>&nums,int low,int high,int k){
-        int p=partition(nums,low,high);
-        if(p==k)return nums[p];
-        else if(p>k)return quickSelect(nums,low,p-1,k);
-        else return quickSelect(nums,p+1,high,k);
+        while(low<=high){
+            int p=partition(nums,low,high);
+            if(p==k)return nums[p];
+            else if(p>k)high=p-1;
+            else low=p+1;
+        }
+        return -1;
 }
 int findKthLargest(vector<int>& nums, int k) {
     return quickSelect(nums,0,nums.size()-1,k-1);
